@@ -1,0 +1,53 @@
+services:
+  puma:
+    cpus: "2"
+    environment:
+      WORKERS: "2"
+      SERVER: "puma"
+    build:
+      context: ./ruby
+      dockerfile: puma.Dockerfile
+    volumes:
+      - ./ruby/puma.rb:/puma.rb
+      - ./ruby/config.ru:/config.ru
+    network_mode: host
+
+  falcon:
+    cpus: "2"
+    environment:
+      WORKERS: "2"
+      SERVER: "falcon"
+    build:
+      context: ./ruby
+      dockerfile: falcon.Dockerfile
+    volumes:
+      - ./ruby/falcon.rb:/falcon.rb
+      - ./ruby/config.ru:/config.ru
+    network_mode: host
+
+  go:
+    cpus: "2"
+    build: ./go
+    network_mode: host
+
+  kamal-proxy:
+    cpus: "2"
+    environment:
+      HTTP_PORT: 8080
+      HTTPS_PORT: 8081
+    build: kamal-proxy
+    restart: unless-stopped
+    network_mode: host
+    logging:
+      driver: none
+
+  nginx:
+    cpus: "2"
+    image: nginx:alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - puma
+      - falcon
+      - go
+    network_mode: host
