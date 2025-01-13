@@ -1,0 +1,3 @@
+[submodule "kamal-proxy"]
+	path = kamal-proxy
+	url = https://github.com/basecamp/kamal-proxy.git
