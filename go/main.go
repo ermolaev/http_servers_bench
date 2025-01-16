@@ -39,6 +39,19 @@ func helloHandler(host string, pool *pgxpool.Pool) http.HandlerFunc {
 			}
 		}
 
+		cpuParam := r.URL.Query().Get("cpu")
+		if cpuParam != "" {
+			cpuValue, err := strconv.Atoi(cpuParam)
+			if err != nil {
+				http.Error(w, "Invalid cpu parameter", http.StatusBadRequest)
+				return
+			}
+	
+			for i := 0; i < 10_000_000_000; i++ {
+				_ = i * cpuValue
+			}
+		}
+
 		w.Header().Add("Content-Type", "text/html")
 		fmt.Fprintf(w, "Hello from Go host=%s time=%s delay=%s %s",
 			host,
@@ -61,7 +74,6 @@ func main() {
 	if err != nil {
 		panic("failed to create connection pool")
 	}
-
 
 	http.HandleFunc("/up", upHandler)
 	http.HandleFunc("/", helloHandler(host, dbpool))
