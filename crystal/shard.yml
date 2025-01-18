@@ -1,0 +1,9 @@
+name: crystal
+version: 0.0.1
+
+license: MIT
+crystal: "~> 1.0"
+
+dependencies:
+  pg:
+    github: will/crystal-pg

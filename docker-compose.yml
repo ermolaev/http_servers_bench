@@ -30,6 +30,15 @@ services:
     build: ./go
     network_mode: host
 
+  crystal:
+    cpus: "2"
+    build: ./crystal
+    volumes:
+      - ./crystal/run.sh:/run.sh
+    network_mode: host
+    depends_on:
+      - postgres
+
   kamal-proxy:
     cpus: "2"
     environment:

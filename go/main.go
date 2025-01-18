@@ -28,7 +28,7 @@ func helloHandler(host string, pool *pgxpool.Pool) http.HandlerFunc {
 
 		count, err := strconv.Atoi(queryParams.Get("count"))
 		if err != nil {
-			fmt.Println("Failed count param: %v", err)
+			// fmt.Println("Failed count param: %v", err)
 			count = 1
 		}
 
