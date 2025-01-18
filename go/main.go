@@ -20,22 +20,30 @@ func helloHandler(host string, pool *pgxpool.Pool) http.HandlerFunc {
 		// slog.Info("Request", "host", host, "request_id", r.Header.Get("X-Request-ID"), "method", r.Method, "url", r.URL)
 
 		queryParams := r.URL.Query()
-		delayStr := queryParams.Get("delay")
 
-		// Convert the delay parameter to an integer
-		delaySeconds, err := strconv.ParseFloat(delayStr, 64)
+		delaySeconds, err := strconv.ParseFloat(queryParams.Get("delay"), 64)
 		if err != nil {
-			// fmt.Println("Invalid delay parameter, defaulting to 0 seconds")
 			delaySeconds = 0
+		}
+
+		count, err := strconv.Atoi(queryParams.Get("count"))
+		if err != nil {
+			fmt.Println("Failed count param: %v", err)
+			count = 1
 		}
 
 		var randomID int
 		var sleep string
 		if delaySeconds > 0 {
-			query := fmt.Sprintf("SELECT random(1, 1_000_000) id, pg_sleep(%s)", delayStr)
-			err = pool.QueryRow(context.Background(), query).Scan(&randomID, &sleep)
-			if err != nil {
-				fmt.Println("Query failed: %v", err)
+			for i := 0; i < count; i++ {
+				err = pool.QueryRow(
+					context.Background(),
+					"SELECT random(1, 1_000_000) id, pg_sleep($1)",
+					delaySeconds,
+				).Scan(&randomID, &sleep)
+				if err != nil {
+					fmt.Println("Query failed: %v", err)
+				}
 			}
 		}
 
@@ -68,7 +76,7 @@ func main() {
 		panic(err)
 	}
 
-	url := fmt.Sprintf("postgres://user:pass@localhost:5432/db1?pool_max_conns=20")
+	url := fmt.Sprintf("postgres://user:pass@localhost:5432/db1?pool_max_conns=40&application_name=go_app")
 
 	dbpool, err := pgxpool.New(context.Background(), url)
 	if err != nil {

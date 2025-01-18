@@ -1,6 +1,8 @@
 
 - `--no-attach kamal-proxy` for disable logs in console
 - `network_mode: host` for disable docker-proxy
+- limit for all containers set to 2 CPUs
+- can only be run on Linux, MacOS does not support `network_mode: host`
 
 ```bash
 docker compose up --build --no-attach kamal-proxy
@@ -9,6 +11,8 @@ docker compose exec kamal-proxy kamal-proxy deploy go      --target localhost:30
 docker compose exec kamal-proxy kamal-proxy deploy puma    --target localhost:3000 --host puma.localhost
 docker compose exec kamal-proxy kamal-proxy deploy falcon  --target localhost:3001 --host falcon.localhost
 docker compose exec kamal-proxy kamal-proxy ls
+
+docker compose exec postgres psql -U user -d db1 -c "SELECT application_name, count(*) FROM pg_stat_activity group by 1;"
 ```
 
 Benchmarked by [Oha](https://github.com/hatoo/oha)

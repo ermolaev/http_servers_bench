@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# fork_worker 10_000
-
 port 3000
-threads 4, 32
+threads 4, 20
 workers ENV.fetch("WORKERS").to_i
