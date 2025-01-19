@@ -1,0 +1,3 @@
+asyncpg
+gunicorn
+uvicorn-worker

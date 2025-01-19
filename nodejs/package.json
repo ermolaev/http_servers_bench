@@ -1,0 +1,16 @@
+{
+    "name": "node-postgres-app",
+    "version": "1.0.0",
+    "description": "A Node.js application that uses PostgreSQL for database operations.",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "pg": "^8.13.0"
+    },
+    "devDependencies": {},
+    "author": "Your Name",
+    "license": "MIT"
+  }
+  

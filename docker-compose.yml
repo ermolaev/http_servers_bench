@@ -46,7 +46,26 @@ services:
     build: ./go
     network_mode: host
 
-      - postgres
+  nodejs:
+    cpus: "2"
+    environment:
+      PORT: 3004
+    build: ./nodejs
+    network_mode: host
+    volumes:
+      - ./nodejs/server.js:/server.js
+      - ./nodejs/app.js:/app.js
+
+  python:
+    cpus: "2"
+    environment:
+      PORT: 3005
+    build: ./python
+    network_mode: host
+    volumes:
+      - ./python/main.py:/main.py
+      - ./python/uvicorn_conf.py:/uvicorn_conf.py
+      - ./python/uvicorn_worker.py:/uvicorn_worker.py
 
   kamal-proxy:
     cpus: "2"
@@ -78,3 +97,5 @@ services:
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: db1
     network_mode: host
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "db1"]
