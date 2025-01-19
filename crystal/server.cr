@@ -1,7 +1,7 @@
 require "http/server"
 require "pg"
 
-db = DB.open "postgres://user:pass@localhost:5432/db1?max_idle_pool_size=40"
+db = DB.open "postgres://user:pass@localhost:5432/db1?max_idle_pool_size=20"
 
 hello = "Hello World Crystal VER=#{Crystal::VERSION}"
 

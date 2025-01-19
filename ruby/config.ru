@@ -4,6 +4,14 @@ require 'rack'
 require 'connection_pool'
 require 'pg'
 
+if ENV["SERVER"] == "iodine"
+  require 'rage'
+  require 'rage/fiber'
+  require 'rage/fiber_scheduler'
+  require 'rage/middleware/fiber_wrapper'
+  use Rage::FiberWrapper
+end
+
 PG_POOL = ConnectionPool.new(size: 20, timeout: 5) do
   PG.connect('localhost', 5432, nil, nil, 'db1', 'user', 'pass')
 end

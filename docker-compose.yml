@@ -27,10 +27,23 @@ services:
       - ./ruby/config.ru:/config.ru
     network_mode: host
 
+  iodine:
+    cpus: "2"
+    environment:
+      WORKERS: "2"
+      SERVER: "iodine"
+      PORT: 3002
+    build:
+      context: ./ruby
+      dockerfile: iodine.Dockerfile
+    volumes:
+      - ./ruby/config.ru:/config.ru
+    network_mode: host
+
   crystal:
     cpus: "2"
     environment:
-      PORT: 3002
+      PORT: 4000
     build: ./crystal
     volumes:
       - ./crystal/run.sh:/run.sh
@@ -42,14 +55,14 @@ services:
   go:
     cpus: "2"
     environment:
-      PORT: 3003
+      PORT: 4001
     build: ./go
     network_mode: host
 
   nodejs:
     cpus: "2"
     environment:
-      PORT: 3004
+      PORT: 4002
     build: ./nodejs
     network_mode: host
     volumes:
@@ -59,7 +72,7 @@ services:
   python:
     cpus: "2"
     environment:
-      PORT: 3005
+      PORT: 4003
     build: ./python
     network_mode: host
     volumes:
@@ -91,7 +104,7 @@ services:
 
   postgres:
     image: postgres:17
-    command: -c 'max_connections=200'
+    command: -c 'max_connections=500'
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
@@ -99,3 +112,4 @@ services:
     network_mode: host
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "user", "-d", "db1"]
+      interval: 1s
