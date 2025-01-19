@@ -29,4 +29,4 @@ server = HTTP::Server.new do |context|
 end
 
 puts "Server running on http://0.0.0.0:3002"
-server.listen("0.0.0.0", 3002, reuse_port: true)
+server.listen("0.0.0.0", ENV.fetch("PORT").to_i, reuse_port: true)

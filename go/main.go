@@ -86,5 +86,10 @@ func main() {
 	http.HandleFunc("/up", upHandler)
 	http.HandleFunc("/", helloHandler(host, dbpool))
 
-	panic(http.ListenAndServe(":3003", nil))
+	port := os.Getenv("PORT")
+	if port == "" {
+		panic("Set env PORT")
+	}
+
+	panic(http.ListenAndServe(":"+port, nil))
 }

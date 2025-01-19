@@ -4,6 +4,7 @@ services:
     environment:
       WORKERS: "2"
       SERVER: "puma"
+      PORT: 3000
     build:
       context: ./ruby
       dockerfile: puma.Dockerfile
@@ -17,6 +18,7 @@ services:
     environment:
       WORKERS: "2"
       SERVER: "falcon"
+      PORT: 3001
     build:
       context: ./ruby
       dockerfile: falcon.Dockerfile
@@ -25,18 +27,25 @@ services:
       - ./ruby/config.ru:/config.ru
     network_mode: host
 
-  go:
-    cpus: "2"
-    build: ./go
-    network_mode: host
-
   crystal:
     cpus: "2"
+    environment:
+      PORT: 3002
     build: ./crystal
     volumes:
       - ./crystal/run.sh:/run.sh
     network_mode: host
     depends_on:
+      postgres:
+        condition: service_healthy
+
+  go:
+    cpus: "2"
+    environment:
+      PORT: 3003
+    build: ./go
+    network_mode: host
+
       - postgres
 
   kamal-proxy:
