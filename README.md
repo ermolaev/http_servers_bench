@@ -50,7 +50,7 @@ oha -n 100000 -c 200 -m GET http://go-k32.localhost   # nginx keepalive 32
 oha -n 100000 -c 200 -m GET http://go-k96.localhost   # nginx keepalive 64
 oha -n 100000 -c 200 -m GET http://go.localhost:8080  # kamal-proxy
 ```
-|                   | go    | go -> nginx k-none | go -> nginx k-32  | go -> nginx k-96  | go -> kamal-proxy |
+|                   | go    | go->nginx<br/>k-none | go->nginx<br/>k-32  | go->nginx<br/>k-96  | go->kamal-proxy |
 |-------------------|-------|-------|--------|--------|----------|
 | Requests/sec:     | 57789 | 19273  | 39264  | 49877  |  12245 |
 | Percentile 50% mc | 5     | 5      | 12     | 2      |  6     |
