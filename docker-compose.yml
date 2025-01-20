@@ -1,8 +1,8 @@
 services:
   puma:
-    cpus: "2"
+    cpus: 2
     environment:
-      WORKERS: "2"
+      WORKERS: 2
       SERVER: "puma"
       PORT: 3000
     build:
@@ -14,9 +14,9 @@ services:
     network_mode: host
 
   falcon:
-    cpus: "2"
+    cpus: 2
     environment:
-      WORKERS: "2"
+      WORKERS: 2
       SERVER: "falcon"
       PORT: 3001
     build:
@@ -28,9 +28,9 @@ services:
     network_mode: host
 
   iodine:
-    cpus: "2"
+    cpus: 2
     environment:
-      WORKERS: "2"
+      WORKERS: 2
       SERVER: "iodine"
       PORT: 3002
     build:
@@ -41,7 +41,7 @@ services:
     network_mode: host
 
   crystal:
-    cpus: "2"
+    cpus: 2
     environment:
       PORT: 4000
     build: ./crystal
@@ -53,16 +53,17 @@ services:
         condition: service_healthy
 
   go:
-    cpus: "2"
+    cpus: 2
     environment:
       PORT: 4001
     build: ./go
     network_mode: host
 
   nodejs:
-    cpus: "2"
+    cpus: 2
     environment:
       PORT: 4002
+      WORKERS: 2
     build: ./nodejs
     network_mode: host
     volumes:
@@ -70,7 +71,7 @@ services:
       - ./nodejs/app.js:/app.js
 
   python:
-    cpus: "2"
+    cpus: 2
     environment:
       PORT: 4003
     build: ./python
@@ -81,7 +82,7 @@ services:
       - ./python/uvicorn_worker.py:/uvicorn_worker.py
 
   kamal-proxy:
-    cpus: "2"
+    cpus: 2
     environment:
       HTTP_PORT: 8080
       HTTPS_PORT: 8081
@@ -92,7 +93,7 @@ services:
       driver: none
 
   nginx:
-    cpus: "2"
+    cpus: 2
     image: nginx:alpine
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
