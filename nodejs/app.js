@@ -1,12 +1,15 @@
 const cluster = require('node:cluster');
 const { availableParallelism } = require('node:os');
-const numCPUs = availableParallelism();
+// const numCPUs = availableParallelism();
+// numCPUs not correct inside the docker container with cpus limited
+// https://github.com/nodejs/node/issues/28762
 
+const numCPUs = parseInt(process.env.WORKERS, 10)
 if (numCPUs > 1 && cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
 
   // Fork workers.
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
   
