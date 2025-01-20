@@ -80,6 +80,9 @@ services:
       - ./python/main.py:/main.py
       - ./python/uvicorn_conf.py:/uvicorn_conf.py
       - ./python/uvicorn_worker.py:/uvicorn_worker.py
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   kamal-proxy:
     cpus: 2

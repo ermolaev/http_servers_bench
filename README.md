@@ -80,3 +80,12 @@ oha -n 20000 -c 50 -m GET "http://localhost:3002?count=3&delay=0.002" # ruby iod
 
 Iodine with 200 and 500 connections have many error with db poll - 
 `ERROR: Iodine caught an unprotected exception - ConnectionPool::TimeoutError: Waited 5 sec, 0/20 available`
+
+### Ruby vs Nodejs vs Python, switch context workers on 2 cpu, pg pool size - 20 per worker
+| workers | ruby puma | ruby falcon | nodejs | python |
+|---------|-----------|-------------|--------|--------|
+| 2       | 3179      | 4943        | 5510   | 2731   |
+| 3       | 3133      | 5251        | 5442   | 2114   |
+| 4       | 3396      | 4789        | 4784   | 1962   |
+| 7       | 4851      | 4376        | 4056   | 1827   |
+| 15      | 5088      | 4373        | 2242   | 1579   |

@@ -1,7 +1,7 @@
 import multiprocessing
 import os
 
-workers = 2
+workers = int(os.getenv("WORKERS"))
 
 bind = f"0.0.0.0:{os.getenv("PORT")}"
 keepalive = 120
