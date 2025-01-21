@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'rack'
+gem 'connection_pool'
+gem 'pg'
+
+group :falcon, optional: true do
+  gem 'falcon'
+end
+
+group :iodine, optional: true do
+  gem 'rage-rb'
+end
+
+group :puma, optional: true do
+  gem 'puma'
+end

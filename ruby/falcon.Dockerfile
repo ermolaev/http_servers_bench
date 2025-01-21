@@ -1,9 +1,10 @@
 FROM ruby:3.4
 
-RUN gem install falcon
-RUN gem install connection_pool
-RUN gem install pg
+COPY . .
+
+RUN bundle config set with 'falcon'
+RUN bundle install --jobs=8
 
 EXPOSE 3001
 
-CMD ["falcon", "host"]
+CMD bundle exec falcon host
