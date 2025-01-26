@@ -1,5 +1,4 @@
 
-- `--no-attach kamal-proxy` for disable logs in console
 - `network_mode: host` for disable docker-proxy
 - limit for each container set to 2 CPUs
 - can only be run on Linux, MacOS does not support `network_mode: host`
@@ -14,9 +13,9 @@ docker compose stats
 
 Benchmarked by [Oha](https://github.com/hatoo/oha)
 
-### Bench program languages
+### Benchmark Program Languages
 
-Emulate real web example - 3 query in postgres (each query time - 2mc)
+This benchmark simulates a real-world web example: executing 3 queries in PostgreSQL, with each query time 2 mc.
 
 ```bash
 oha -n 20000 -c 50 -m GET "http://localhost:3000?count=3&delay=0.002" # ruby puma
@@ -36,7 +35,7 @@ oha -n 20000 -c 50 -m GET "http://localhost:4003?count=3&delay=0.002" # async py
 | CPU utilization % | 218      | 186         | 206         | 70      | 165  | 199    | 206    |
 | Memory (MiB)      | 74       | 71          | 227         | 14      | 14   | 99     | 60     |
 
-### Puma vs Falcon vs iodine, different connections
+### Puma vs Falcon vs Iodine, different numbers of connections to run concurrently
 
 ```bash
 oha -n 20000 -c 50 -m GET "http://localhost:3000?count=3&delay=0.002" # ruby puma
