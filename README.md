@@ -8,6 +8,8 @@
 docker compose up
 # show pg connection per application
 docker compose exec postgres psql -U user -d db1 -c "SELECT application_name, count(*) FROM pg_stat_activity group by 1;"
+# CPU, MEM utilization
+docker compose stats
 ```
 
 Benchmarked by [Oha](https://github.com/hatoo/oha)
@@ -31,6 +33,8 @@ oha -n 20000 -c 50 -m GET "http://localhost:4003?count=3&delay=0.002" # async py
 | Percentile 50% mc | 10       | 10          | 7           | 6       | 8    | 9      | 18     |
 | Percentile 90% mc | 27       | 12          | 28          | 7       | 9    | 10     | 20     |
 | Percentile 99% mc | 68       | 14          | 45          | 7       | 9    | 13     | 23     |
+| CPU utilization % | 218      | 186         | 206         | 70      | 165  | 199    | 206    |
+| Memory (MiB)      | 74       | 71          | 227         | 14      | 14   | 99     | 60     |
 
 ### Puma vs Falcon vs iodine, different connections
 

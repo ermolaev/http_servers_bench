@@ -74,6 +74,7 @@ services:
     cpus: 2
     environment:
       PORT: 4003
+      WORKERS: 2
     build: ./python
     network_mode: host
     volumes:
