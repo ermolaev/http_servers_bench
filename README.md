@@ -5,14 +5,8 @@
 - can only be run on Linux, MacOS does not support `network_mode: host`
 
 ```bash
-docker compose up --build --no-attach kamal-proxy
-
-docker compose exec kamal-proxy kamal-proxy deploy go      --target localhost:4001 --host go.localhost
-docker compose exec kamal-proxy kamal-proxy deploy puma    --target localhost:3000 --host puma.localhost
-docker compose exec kamal-proxy kamal-proxy deploy falcon  --target localhost:3001 --host falcon.localhost
-docker compose exec kamal-proxy kamal-proxy ls
-
-// show pg connection per application
+docker compose up
+# show pg connection per application
 docker compose exec postgres psql -U user -d db1 -c "SELECT application_name, count(*) FROM pg_stat_activity group by 1;"
 ```
 
@@ -37,25 +31,6 @@ oha -n 20000 -c 50 -m GET "http://localhost:4003?count=3&delay=0.002" # async py
 | Percentile 50% mc | 10       | 10          | 7           | 6       | 8    | 9      | 18     |
 | Percentile 90% mc | 27       | 12          | 28          | 7       | 9    | 10     | 20     |
 | Percentile 99% mc | 68       | 14          | 45          | 7       | 9    | 13     | 23     |
-
-
-#### Bench Nginx vs Kamal Proxy 
-
-simpple app - Hello Word on `Go`
-
-```bash
-oha -n 100000 -c 200 -m GET http://localhost:4001     # direct
-oha -n 100000 -c 200 -m GET http://go.localhost       # nginx none keepalive
-oha -n 100000 -c 200 -m GET http://go-k32.localhost   # nginx keepalive 32
-oha -n 100000 -c 200 -m GET http://go-k96.localhost   # nginx keepalive 64
-oha -n 100000 -c 200 -m GET http://go.localhost:8080  # kamal-proxy
-```
-|                   | go    | go->nginx<br/>k-none | go->nginx<br/>k-32  | go->nginx<br/>k-96  | go->kamal-proxy |
-|-------------------|-------|-------|--------|--------|----------|
-| Requests/sec:     | 57789 | 19273  | 39264  | 49877  |  12245 |
-| Percentile 50% mc | 5     | 5      | 12     | 2      |  6     |
-| Percentile 90% mc | 69    | 34     | 67     | 5      |  66    |
-| Percentile 99% mc | 91    | 53     | 98     | 39     |  76    |
 
 ### Puma vs Falcon vs iodine, different connections
 
