@@ -15,5 +15,5 @@ group :iodine, optional: true do
 end
 
 group :puma, optional: true do
-  gem 'puma'
+  gem 'puma', ENV['PUMA_VERSION']
 end

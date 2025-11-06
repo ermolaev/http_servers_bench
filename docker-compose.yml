@@ -3,11 +3,29 @@ services:
     cpus: 2
     environment:
       WORKERS: 2
-      SERVER: "puma"
+      SERVER: "puma 6.6"
       PORT: 3000
     build:
       context: ./ruby
       dockerfile: puma.Dockerfile
+      args:
+        PUMA_VERSION: "~> 6.5"
+    volumes:
+      - ./ruby/puma.rb:/puma.rb
+      - ./ruby/config.ru:/config.ru
+    network_mode: host
+
+  puma7:
+    cpus: 2
+    environment:
+      WORKERS: 2
+      SERVER: "puma 7.1"
+      PORT: 2999
+    build:
+      context: ./ruby
+      dockerfile: puma.Dockerfile
+      args:
+        PUMA_VERSION: "~> 7.1"
     volumes:
       - ./ruby/puma.rb:/puma.rb
       - ./ruby/config.ru:/config.ru

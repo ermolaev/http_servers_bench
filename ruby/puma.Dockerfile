@@ -2,6 +2,9 @@ FROM ruby:3.4
 
 COPY . .
 
+ARG PUMA_VERSION
+ENV PUMA_VERSION=${PUMA_VERSION}
+
 RUN bundle config set with 'puma'
 RUN bundle install --jobs=8
 
